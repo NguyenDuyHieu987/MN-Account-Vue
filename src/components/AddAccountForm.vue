@@ -1,41 +1,41 @@
 <template>
   <div class="input-container">
     <p class="title-input">Name</p>
-    <input type="text" v-model="$store.state.requestEditAccount.name" />
+    <input type="text" v-model="$store.state.requestAddAccount.name" />
   </div>
   <div class="input-container">
     <p class="title-input">Phone</p>
-    <input type="text" v-model="$store.state.requestEditAccount.phone" />
+    <input type="text" v-model="$store.state.requestAddAccount.phone" />
   </div>
   <div class="input-container">
     <p class="title-input">Iban</p>
-    <input type="text" v-model="$store.state.requestEditAccount.iban" />
+    <input type="text" v-model="$store.state.requestAddAccount.iban" />
   </div>
   <div class="input-container">
     <p class="title-input">Pin</p>
-    <input type="text" v-model="$store.state.requestEditAccount.pin" />
+    <input type="text" v-model="$store.state.requestAddAccount.pin" />
   </div>
   <div class="input-container">
     <p class="title-input">Address</p>
-    <input type="text" v-model="$store.state.requestEditAccount.address" />
+    <input type="text" v-model="$store.state.requestAddAccount.address" />
   </div>
   <div class="input-container">
     <p class="title-input">Balance</p>
-    <input type="text" v-model="$store.state.requestEditAccount.balance" />
+    <input type="text" v-model="$store.state.requestAddAccount.balance" />
   </div>
   <div class="input-container">
     <p class="title-input">Email</p>
-    <input type="text" v-model="$store.state.requestEditAccount.email" />
+    <input type="text" v-model="$store.state.requestAddAccount.email" />
   </div>
   <div class="input-container">
     <p class="title-input">Date</p>
-    <input type="text" v-model="$store.state.requestEditAccount.date" />
+    <input type="text" v-model="$store.state.requestAddAccount.date" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'EditAccountForm',
+  name: 'AddAccountForm',
   props: {},
   data() {
     return {};

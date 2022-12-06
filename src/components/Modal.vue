@@ -4,7 +4,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3>
-            <strong> <slot name="header"> </slot></strong>
+            <strong>
+              <slot name="header" />
+            </strong>
           </h3>
           <div class="icon-close">
             <font-awesome-icon
@@ -20,7 +22,7 @@
         <div class="modal-footer">
           <div class="button-container">
             <button class="btn-close" @click="$emit('close')">Close</button>
-            <button class="btn-save">Save change</button>
+            <button class="btn-save" @click="onSaveChange">Save change</button>
           </div>
         </div>
       </div>
@@ -29,9 +31,75 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Modal',
-  props: {},
+
+  props: {
+    action: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    onSaveChange() {
+      if (this.action.add) {
+        axios
+          .post(
+            'http://localhost:3001/account/addAccount',
+            this.$store.state.requestAddAccount
+          )
+          .then((response) => {
+            if (response.data.success) {
+              this.$store.dispatch('getListAccount', { pageAccount: 0 });
+              this.$store.dispatch('getNumberOfAccount');
+              this.$emit('close');
+              this.$store.state.showAddMessage = true;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
+      if (this.action.edit) {
+        axios
+          .post(
+            'http://localhost:3001/account/updateaccount',
+            this.$store.state.requestEditAccount
+          )
+          .then((response) => {
+            if (response.data.success) {
+              this.$store.dispatch('getListAccount', { pageAccount: 0 });
+              this.$store.dispatch('getNumberOfAccount');
+              this.$emit('close');
+              this.$store.state.showUpdateMessage = true;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
+      if (this.action.remove) {
+        axios
+          .post(
+            'http://localhost:3001/account/removeaccount',
+            this.$store.state.requestRemoveAccount
+          )
+          .then((response) => {
+            if (response.data.success) {
+              this.$store.dispatch('getListAccount', { pageAccount: 0 });
+              this.$store.dispatch('getNumberOfAccount');
+              this.$emit('close');
+              this.$store.state.showRemoveMessage = true;
+            }
+          })
+          .catch((e) => {
+            if (axios.isCancel(e)) return;
+          });
+      }
+    },
+  },
 };
 </script>
 
@@ -66,6 +134,7 @@ export default {
     opacity: 0;
     top: -600px;
   }
+
   to {
     opacity: 1;
     top: 0;

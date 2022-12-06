@@ -17,8 +17,9 @@ import {
   faFileInvoice,
   faArrowRightFromBracket,
   faXmark,
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faTrashCan, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
 /* add icons to the library */
 library.add(
@@ -27,7 +28,9 @@ library.add(
   faTrashCan,
   faFileInvoice,
   faArrowRightFromBracket,
-  faXmark
+  faXmark,
+  faCircleCheck,
+  faCircleXmark
 );
 const app = createApp(App);
 registerGlobalComponent(app);

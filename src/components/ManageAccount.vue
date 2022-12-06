@@ -1,6 +1,20 @@
 <template>
   <div class="manage-account">
     <h2>Manage Account</h2>
+    <div class="message-notification">
+      <MessageSuccess
+        v-if="$store.state.showAddMessage"
+        message="Successfully created"
+      />
+      <MessageSuccess
+        v-if="$store.state.showUpdateMessage"
+        message="Successfully updated"
+      />
+      <MessageSuccess
+        v-if="$store.state.showRemoveMessage"
+        message="Successfully removed"
+      />
+    </div>
     <button class="btn-add-account" @click="btnAddOnClick">Add Account</button>
     <div class="manage-account-content">
       <div class="table-container">
@@ -32,19 +46,19 @@
                   <font-awesome-icon icon="fa-regular fa-trash-can" />
                 </button>
               </td>
-              <td>{{ account.id }}</td>
+              <td class="id">{{ account.id }}</td>
               <td>
                 <p class="name">{{ account.name.slice(0, 25) }}</p>
               </td>
               <td>
                 <p class="phone">{{ account.phone }}</p>
               </td>
-              <td>{{ account.iban }}</td>
-              <td>{{ account.pin }}</td>
+              <td class="iban">{{ account.iban }}</td>
+              <td class="pin">{{ account.pin }}</td>
               <td>
                 <p class="address">{{ account.address }}</p>
               </td>
-              <td>{{ account.balance }}</td>
+              <td class="balance">{{ account.balance }}</td>
               <td>
                 <p class="email">{{ account.email }}</p>
               </td>
@@ -98,13 +112,18 @@
           isShowModalRemove = false;
           isShowModalAdd = false;
         "
+        :action="{
+          add: isShowModalAdd,
+          edit: isShowModalEdit,
+          remove: isShowModalRemove,
+        }"
       >
         <template v-slot:header>
           <p v-if="isShowModalAdd">Add Account</p>
           <p v-if="isShowModalEdit">Edit Account</p>
           <p v-if="isShowModalRemove">Remove Account</p>
         </template>
-        <EditAccountForm v-if="isShowModalAdd" />
+        <AddAccountForm v-if="isShowModalAdd" />
         <EditAccountForm v-if="isShowModalEdit" />
         <RemoveAccountForm v-if="isShowModalRemove" />
       </Modal>
@@ -115,12 +134,21 @@
 <script>
 import { HalfCircleSpinner } from 'epic-spinners';
 import Modal from './Modal.vue';
+import AddAccountForm from './AddAccountForm.vue';
 import EditAccountForm from './EditAccountForm.vue';
 import RemoveAccountForm from './RemoveAccountForm.vue';
+import MessageSuccess from './MessageSuccess.vue';
 
 export default {
   name: 'ManageAccount',
-  components: { HalfCircleSpinner, Modal, EditAccountForm, RemoveAccountForm },
+  components: {
+    HalfCircleSpinner,
+    Modal,
+    EditAccountForm,
+    RemoveAccountForm,
+    AddAccountForm,
+    MessageSuccess,
+  },
   data() {
     return {
       pageAccount: 0,
@@ -140,11 +168,32 @@ export default {
     },
     btnEditOnClick(e) {
       this.isShowModalEdit = true;
-      e.target.closest('');
+      const item = e.target.closest('.item');
+      const id = item.querySelector('.id');
+      const name = item.querySelector('.name');
+      const phone = item.querySelector('.phone');
+      const iban = item.querySelector('.iban');
+      const pin = item.querySelector('.pin');
+      const address = item.querySelector('.address');
+      const balance = item.querySelector('.balance');
+      const email = item.querySelector('.email');
+      const date = item.querySelector('.date');
+
+      this.$store.state.requestEditAccount.id = id.innerHTML;
+      this.$store.state.requestEditAccount.name = name.innerHTML;
+      this.$store.state.requestEditAccount.phone = phone.innerHTML;
+      this.$store.state.requestEditAccount.iban = iban.innerHTML;
+      this.$store.state.requestEditAccount.pin = pin.innerHTML;
+      this.$store.state.requestEditAccount.address = address.innerHTML;
+      this.$store.state.requestEditAccount.balance = balance.innerHTML;
+      this.$store.state.requestEditAccount.email = email.innerHTML;
+      this.$store.state.requestEditAccount.date = date.innerHTML;
     },
     btnRemoveOnClick(e) {
       this.isShowModalRemove = true;
-      e.target.closest('');
+      const item = e.target.closest('.item');
+      const id = item.querySelector('.id');
+      this.$store.state.requestRemoveAccount.id = id.innerHTML;
     },
     btnAddOnClick(e) {
       this.isShowModalAdd = true;
@@ -175,7 +224,7 @@ export default {
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  box-shadow: 4px 4px 2px #7c7c7c;
+  box-shadow: 4px 4px 2px #4d4d4d;
 
   &:hover {
     transition: 0.25s ease-in-out;
