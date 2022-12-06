@@ -1,0 +1,47 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Manrope&family=Mulish&family=Nunito+Sans&family=Roboto+Flex:opsz,wght@8..144,300&family=Roboto:wght@300&family=Source+Sans+Pro&display=swap');
+
+:root {
+  --regular-color: #ffffff;
+  --body-color: #cbcbcb;
+  --body-text-color: #000000;
+  --body-content-color: #e1e1e1;
+  --sidebar-color: #19232e;
+  --sidebar-color-hover: #0b1725;
+  --header-content-color: #007797;
+  --header-sidebar-color: #005f79;
+  --text-color-sidebar: #d1d1d1;
+  --header-table-color: #0086ac;
+  --header-height: 45px;
+  --sidebar-width: 250px;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 10px;
+  color: #ffffff;
+}
+
+*,
+*:before,
+*:after {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.43;
+  font-size: 1.5rem;
+  font-family: 'Mulish', sans-serif;
+  text-rendering: optimizeSpeed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0px;
+}
