@@ -1,7 +1,7 @@
 <template>
   <div class="manage-account">
     <h2>Manage Account</h2>
-    <button class="btn-add-account">Add Account</button>
+    <button class="btn-add-account" @click="btnAddOnClick">Add Account</button>
     <div class="manage-account-content">
       <div class="table-container">
         <div v-if="listAccount.length">
@@ -25,10 +25,10 @@
               class="item"
             >
               <td class="action">
-                <button class="btn-edit">
+                <button class="btn-edit" @click="btnEditOnClick">
                   <font-awesome-icon icon="fa-solid fa-pencil" />
                 </button>
-                <button class="btn-remove">
+                <button class="btn-remove" @click="btnRemoveOnClick">
                   <font-awesome-icon icon="fa-regular fa-trash-can" />
                 </button>
               </td>
@@ -90,17 +90,43 @@
         </div>
       </div>
     </div>
+    <teleport to="body">
+      <Modal
+        v-if="isShowModalEdit || isShowModalRemove || isShowModalAdd"
+        @close="
+          isShowModalEdit = false;
+          isShowModalRemove = false;
+          isShowModalAdd = false;
+        "
+      >
+        <template v-slot:header>
+          <p v-if="isShowModalAdd">Add Account</p>
+          <p v-if="isShowModalEdit">Edit Account</p>
+          <p v-if="isShowModalRemove">Remove Account</p>
+        </template>
+        <EditAccountForm v-if="isShowModalAdd" />
+        <EditAccountForm v-if="isShowModalEdit" />
+        <RemoveAccountForm v-if="isShowModalRemove" />
+      </Modal>
+    </teleport>
   </div>
 </template>
 
 <script>
 import { HalfCircleSpinner } from 'epic-spinners';
+import Modal from './Modal.vue';
+import EditAccountForm from './EditAccountForm.vue';
+import RemoveAccountForm from './RemoveAccountForm.vue';
+
 export default {
   name: 'ManageAccount',
-  components: { HalfCircleSpinner },
+  components: { HalfCircleSpinner, Modal, EditAccountForm, RemoveAccountForm },
   data() {
     return {
       pageAccount: 0,
+      isShowModalEdit: false,
+      isShowModalRemove: false,
+      isShowModalAdd: false,
     };
   },
   methods: {
@@ -111,6 +137,18 @@ export default {
     btnNextOnclick() {
       this.pageAccount = ++this.pageAccount;
       this.$store.dispatch('getListAccount', { pageAccount: this.pageAccount });
+    },
+    btnEditOnClick(e) {
+      this.isShowModalEdit = true;
+      e.target.closest('');
+    },
+    btnRemoveOnClick(e) {
+      this.isShowModalRemove = true;
+      e.target.closest('');
+    },
+    btnAddOnClick(e) {
+      this.isShowModalAdd = true;
+      e.target.closest('');
     },
   },
   created() {
@@ -150,6 +188,7 @@ export default {
   padding: 10px;
   margin-top: 20px;
   box-shadow: 6px 6px 3px #494949;
+  border-radius: 5px;
 }
 
 .table-container {

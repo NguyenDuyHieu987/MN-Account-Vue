@@ -16,6 +16,7 @@ import {
   faPencil,
   faFileInvoice,
   faArrowRightFromBracket,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
@@ -25,7 +26,8 @@ library.add(
   faPencil,
   faTrashCan,
   faFileInvoice,
-  faArrowRightFromBracket
+  faArrowRightFromBracket,
+  faXmark
 );
 const app = createApp(App);
 registerGlobalComponent(app);

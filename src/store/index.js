@@ -37,9 +37,7 @@ const store = createStore({
 
     async getListAccount({ commit }, { pageAccount }) {
       const dataAccount = await axios
-        .get(
-          `https://mn-account-server.onrender.com/account/getallaccount?page=${pageAccount}`
-        )
+        .get(`http://localhost:3001/account/getallaccount?page=${pageAccount}`)
         .then((accountResponse) => accountResponse.data);
 
       commit('setListAccount', dataAccount);
@@ -47,9 +45,7 @@ const store = createStore({
 
     async getNumberOfAccount({ commit }) {
       const numberOfAccount = await axios
-        .get(
-          `https://mn-account-server.onrender.com/account/getnumberofaccount`
-        )
+        .get(`http://localhost:3001/account/getnumberofaccount`)
         .then((accountResponse) => accountResponse.data.result);
 
       commit('setNumberOfAccount', numberOfAccount);
