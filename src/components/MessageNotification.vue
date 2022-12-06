@@ -1,9 +1,18 @@
 <template>
-  <div class="success-message-container">
+  <div
+    :class="{ failed: $store.state.failedMessage }"
+    class="message-container"
+  >
     <div class="left-side">
       <font-awesome-icon
+        v-if="$store.state.failedMessage"
+        icon="fa-solid fa-circle-exclamation"
+        class="icon-message"
+      />
+      <font-awesome-icon
+        v-else
         icon="fa-solid fa-circle-check"
-        class="fa-circle-check"
+        class="icon-message"
       />
       <p class="message">{{ message }}</p>
     </div>
@@ -23,7 +32,7 @@
 
 <script>
 export default {
-  name: 'MessageSuccess',
+  name: 'MessageNotification',
   props: {
     message: {
       type: String,
@@ -34,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.success-message-container {
+.message-container {
   width: 100%;
   padding: 15px;
   display: flex;
@@ -49,12 +58,20 @@ export default {
   border-left: 7px solid var(--success-color);
 }
 
+.failed.message-container {
+  border-left: 7px solid var(--failed-color);
+
+  .icon-message {
+    color: var(--failed-color);
+  }
+}
+
 .left-side {
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  .fa-circle-check {
+  .icon-message {
     font-size: 18px;
     color: var(--success-color);
   }

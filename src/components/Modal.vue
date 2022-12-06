@@ -47,7 +47,7 @@ export default {
       if (this.action.add) {
         axios
           .post(
-            'http://localhost:3001/account/addAccount',
+            `${process.env.VUE_APP_SERViCE_URL}/account/addAccount`,
             this.$store.state.requestAddAccount
           )
           .then((response) => {
@@ -56,6 +56,13 @@ export default {
               this.$store.dispatch('getNumberOfAccount');
               this.$emit('close');
               this.$store.state.showAddMessage = true;
+              this.$store.state.showUpdateMessage = false;
+              this.$store.state.showRemoveMessage = false;
+              this.$store.state.failedMessage = false;
+            } else {
+              this.$store.state.showAddMessage = true;
+              this.$store.state.failedMessage = true;
+              this.$emit('close');
             }
           })
           .catch((e) => {
@@ -65,7 +72,7 @@ export default {
       if (this.action.edit) {
         axios
           .post(
-            'http://localhost:3001/account/updateaccount',
+            `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
             this.$store.state.requestEditAccount
           )
           .then((response) => {
@@ -74,6 +81,13 @@ export default {
               this.$store.dispatch('getNumberOfAccount');
               this.$emit('close');
               this.$store.state.showUpdateMessage = true;
+              this.$store.state.showAddMessage = false;
+              this.$store.state.showRemoveMessage = false;
+              this.$store.state.failedMessage = false;
+            } else {
+              this.$store.state.showUpdateMessage = true;
+              this.$store.state.failedMessage = true;
+              this.$emit('close');
             }
           })
           .catch((e) => {
@@ -83,7 +97,7 @@ export default {
       if (this.action.remove) {
         axios
           .post(
-            'http://localhost:3001/account/removeaccount',
+            `${process.env.VUE_APP_SERViCE_URL}/account/removeaccount`,
             this.$store.state.requestRemoveAccount
           )
           .then((response) => {
@@ -92,6 +106,13 @@ export default {
               this.$store.dispatch('getNumberOfAccount');
               this.$emit('close');
               this.$store.state.showRemoveMessage = true;
+              this.$store.state.showUpdateMessage = false;
+              this.$store.state.showAddMessage = false;
+              this.$store.state.failedMessage = false;
+            } else {
+              this.$store.state.showRemoveMessage = true;
+              this.$store.state.failedMessage = true;
+              this.$emit('close');
             }
           })
           .catch((e) => {

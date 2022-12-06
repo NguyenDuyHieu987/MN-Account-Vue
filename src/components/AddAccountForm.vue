@@ -1,5 +1,9 @@
 <template>
   <div class="input-container">
+    <p class="title-input">Id</p>
+    <input type="text" v-model="$store.state.requestAddAccount.id" />
+  </div>
+  <div class="input-container">
     <p class="title-input">Name</p>
     <input type="text" v-model="$store.state.requestAddAccount.name" />
   </div>

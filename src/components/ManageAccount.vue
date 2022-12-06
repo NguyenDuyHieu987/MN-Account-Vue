@@ -2,17 +2,29 @@
   <div class="manage-account">
     <h2>Manage Account</h2>
     <div class="message-notification">
-      <MessageSuccess
+      <MessageNotification
         v-if="$store.state.showAddMessage"
-        message="Successfully created"
+        :message="
+          !$store.state.failedMessage
+            ? 'Successfully created'
+            : 'Failed created'
+        "
       />
-      <MessageSuccess
+      <MessageNotification
         v-if="$store.state.showUpdateMessage"
-        message="Successfully updated"
+        :message="
+          !$store.state.failedMessage
+            ? 'Successfully updated'
+            : 'Failed updated'
+        "
       />
-      <MessageSuccess
+      <MessageNotification
         v-if="$store.state.showRemoveMessage"
-        message="Successfully removed"
+        :message="
+          !$store.state.failedMessage
+            ? 'Successfully removed'
+            : 'Failed removed'
+        "
       />
     </div>
     <button class="btn-add-account" @click="btnAddOnClick">Add Account</button>
@@ -137,7 +149,7 @@ import Modal from './Modal.vue';
 import AddAccountForm from './AddAccountForm.vue';
 import EditAccountForm from './EditAccountForm.vue';
 import RemoveAccountForm from './RemoveAccountForm.vue';
-import MessageSuccess from './MessageSuccess.vue';
+import MessageNotification from './MessageNotification.vue';
 
 export default {
   name: 'ManageAccount',
@@ -147,7 +159,7 @@ export default {
     EditAccountForm,
     RemoveAccountForm,
     AddAccountForm,
-    MessageSuccess,
+    MessageNotification,
   },
   data() {
     return {

@@ -18,6 +18,7 @@ import {
   faArrowRightFromBracket,
   faXmark,
   faCircleCheck,
+  faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
@@ -30,7 +31,8 @@ library.add(
   faArrowRightFromBracket,
   faXmark,
   faCircleCheck,
-  faCircleXmark
+  faCircleXmark,
+  faCircleExclamation
 );
 const app = createApp(App);
 registerGlobalComponent(app);

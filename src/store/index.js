@@ -10,6 +10,7 @@ const store = createStore({
       showAddMessage: false,
       showUpdateMessage: false,
       showRemoveMessage: false,
+      failedMessage: false,
       requestAddAccount: {
         id: '',
         name: '',
@@ -65,7 +66,9 @@ const store = createStore({
 
     async getListAccount({ commit }, { pageAccount }) {
       const dataAccount = await axios
-        .get(`http://localhost:3001/account/getallaccount?page=${pageAccount}`)
+        .get(
+          `${process.env.VUE_APP_SERViCE_URL}/account/getallaccount?page=${pageAccount}`
+        )
         .then((accountResponse) => accountResponse.data);
 
       commit('setListAccount', dataAccount);
@@ -73,7 +76,7 @@ const store = createStore({
 
     async getNumberOfAccount({ commit }) {
       const numberOfAccount = await axios
-        .get(`http://localhost:3001/account/getnumberofaccount`)
+        .get(`${process.env.VUE_APP_SERViCE_URL}/account/getnumberofaccount`)
         .then((accountResponse) => accountResponse.data.result);
 
       commit('setNumberOfAccount', numberOfAccount);
