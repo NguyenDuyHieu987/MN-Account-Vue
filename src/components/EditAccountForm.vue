@@ -58,8 +58,8 @@ export default {
     border-radius: 3px;
 
     &:focus {
-      border: none;
-      outline: 2px solid var(--header-content-color);
+      border: 1px solid var(--header-content-color);
+      outline: 1px solid var(--header-content-color);
     }
   }
 }

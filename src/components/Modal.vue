@@ -20,10 +20,7 @@
           <slot />
         </div>
         <div class="modal-footer">
-          <div class="button-container">
-            <button class="btn-close" @click="$emit('close')">Close</button>
-            <button class="btn-save" @click="onSaveChange">Save change</button>
-          </div>
+          <slot name="footer" />
         </div>
       </div>
     </div>
@@ -31,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'Modal',
@@ -43,83 +40,83 @@ export default {
     },
   },
   methods: {
-    onSaveChange() {
-      if (this.action.add) {
-        axios
-          .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/addAccount`,
-            this.$store.state.requestAddAccount
-          )
-          .then((response) => {
-            if (response.data.success) {
-              this.$store.dispatch('getListAccount', { pageAccount: 0 });
-              this.$store.dispatch('getNumberOfAccount');
-              this.$emit('close');
-              this.$store.state.showAddMessage = true;
-              this.$store.state.showUpdateMessage = false;
-              this.$store.state.showRemoveMessage = false;
-              this.$store.state.failedMessage = false;
-            } else {
-              this.$store.state.showAddMessage = true;
-              this.$store.state.failedMessage = true;
-              this.$emit('close');
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
-      if (this.action.edit) {
-        axios
-          .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
-            this.$store.state.requestEditAccount
-          )
-          .then((response) => {
-            if (response.data.success) {
-              this.$store.dispatch('getListAccount', { pageAccount: 0 });
-              this.$store.dispatch('getNumberOfAccount');
-              this.$emit('close');
-              this.$store.state.showUpdateMessage = true;
-              this.$store.state.showAddMessage = false;
-              this.$store.state.showRemoveMessage = false;
-              this.$store.state.failedMessage = false;
-            } else {
-              this.$store.state.showUpdateMessage = true;
-              this.$store.state.failedMessage = true;
-              this.$emit('close');
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
-      if (this.action.remove) {
-        axios
-          .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/removeaccount`,
-            this.$store.state.requestRemoveAccount
-          )
-          .then((response) => {
-            if (response.data.success) {
-              this.$store.dispatch('getListAccount', { pageAccount: 0 });
-              this.$store.dispatch('getNumberOfAccount');
-              this.$emit('close');
-              this.$store.state.showRemoveMessage = true;
-              this.$store.state.showUpdateMessage = false;
-              this.$store.state.showAddMessage = false;
-              this.$store.state.failedMessage = false;
-            } else {
-              this.$store.state.showRemoveMessage = true;
-              this.$store.state.failedMessage = true;
-              this.$emit('close');
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
-      }
-    },
+    // onSaveChange() {
+    //   if (this.action.add) {
+    //     axios
+    //       .post(
+    //         `${process.env.VUE_APP_SERViCE_URL}/account/addAccount`,
+    //         this.$store.state.requestAddAccount
+    //       )
+    //       .then((response) => {
+    //         if (response.data.success) {
+    //           this.$store.dispatch('getListAccount', { pageAccount: 0 });
+    //           this.$store.dispatch('getNumberOfAccount');
+    //           this.$emit('close');
+    //           this.$store.state.showAddMessage = true;
+    //           this.$store.state.showUpdateMessage = false;
+    //           this.$store.state.showRemoveMessage = false;
+    //           this.$store.state.failedMessage = false;
+    //         } else {
+    //           this.$store.state.showAddMessage = true;
+    //           this.$store.state.failedMessage = true;
+    //           this.$emit('close');
+    //         }
+    //       })
+    //       .catch((e) => {
+    //         if (axios.isCancel(e)) return;
+    //       });
+    //   }
+    //   if (this.action.edit) {
+    //     axios
+    //       .post(
+    //         `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
+    //         this.$store.state.requestEditAccount
+    //       )
+    //       .then((response) => {
+    //         if (response.data.success) {
+    //           this.$store.dispatch('getListAccount', { pageAccount: 0 });
+    //           this.$store.dispatch('getNumberOfAccount');
+    //           this.$emit('close');
+    //           this.$store.state.showUpdateMessage = true;
+    //           this.$store.state.showAddMessage = false;
+    //           this.$store.state.showRemoveMessage = false;
+    //           this.$store.state.failedMessage = false;
+    //         } else {
+    //           this.$store.state.showUpdateMessage = true;
+    //           this.$store.state.failedMessage = true;
+    //           this.$emit('close');
+    //         }
+    //       })
+    //       .catch((e) => {
+    //         if (axios.isCancel(e)) return;
+    //       });
+    //   }
+    //   if (this.action.remove) {
+    //     axios
+    //       .post(
+    //         `${process.env.VUE_APP_SERViCE_URL}/account/removeaccount`,
+    //         this.$store.state.requestRemoveAccount
+    //       )
+    //       .then((response) => {
+    //         if (response.data.success) {
+    //           this.$store.dispatch('getListAccount', { pageAccount: 0 });
+    //           this.$store.dispatch('getNumberOfAccount');
+    //           this.$emit('close');
+    //           this.$store.state.showRemoveMessage = true;
+    //           this.$store.state.showUpdateMessage = false;
+    //           this.$store.state.showAddMessage = false;
+    //           this.$store.state.failedMessage = false;
+    //         } else {
+    //           this.$store.state.showRemoveMessage = true;
+    //           this.$store.state.failedMessage = true;
+    //           this.$emit('close');
+    //         }
+    //       })
+    //       .catch((e) => {
+    //         if (axios.isCancel(e)) return;
+    //       });
+    //   }
+    // },
   },
 };
 </script>
@@ -194,37 +191,5 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-
-  .button-container {
-  }
-
-  button {
-    cursor: pointer;
-    border: none;
-    margin-left: auto;
-    transition: 0.25 ease-in-out;
-    border-radius: 3px;
-  }
-
-  .btn-close {
-    padding: 10px 15px;
-    background-color: #fbfbfb;
-    border: 1px solid #393939;
-
-    &:hover {
-      background-color: #b0b0b0;
-    }
-  }
-
-  button + button {
-    padding: 11px 15px;
-    color: var(--regular-color);
-    margin-left: 7px;
-    background-color: var(--header-content-color);
-
-    &:hover {
-      background-color: var(--header-sidebar-color);
-    }
-  }
 }
 </style>

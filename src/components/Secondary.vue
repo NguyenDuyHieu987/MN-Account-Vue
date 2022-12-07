@@ -13,10 +13,7 @@
             />
             <span> Manage Account</span>
           </li>
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>
+          <li @click="onLogout">
             <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
             <span>Log out</span>
           </li>
@@ -28,13 +25,18 @@
 
 <script>
 import { useStore, mapGetters } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'Secondary',
   setup() {
     const store = useStore();
-
+    const router = useRouter();
+    const onLogout = () => {
+      router.push({ path: '/auth' });
+    };
     return {
       activeSideBar1: store.getters.activeSideBar,
+      onLogout,
     };
   },
   computed: { ...mapGetters(['activeSideBar']) },

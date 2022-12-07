@@ -11,6 +11,7 @@ const store = createStore({
       showUpdateMessage: false,
       showRemoveMessage: false,
       failedMessage: false,
+      detailAccount: null,
       requestAddAccount: {
         id: '',
         name: '',
@@ -45,6 +46,9 @@ const store = createStore({
     setListAccount(state, dataAccount) {
       state.listAccount = dataAccount;
     },
+    setDetailAccount(state, dataAccount) {
+      state.detailAccount = dataAccount;
+    },
     setNumberOfAccount(state, numberOfAccount) {
       state.numberOfAccount = numberOfAccount;
     },
@@ -64,10 +68,30 @@ const store = createStore({
       commit('setActiveSideBar');
     },
 
-    async getListAccount({ commit }, { pageAccount }) {
+    async getListAccount({ commit }, { pageAccount, showEntries }) {
       const dataAccount = await axios
         .get(
-          `${process.env.VUE_APP_SERViCE_URL}/account/getallaccount?page=${pageAccount}`
+          `${process.env.VUE_APP_SERViCE_URL}/account/getallaccount?page=${pageAccount}&showentries=${showEntries}`
+        )
+        .then((accountResponse) => accountResponse.data);
+
+      commit('setListAccount', dataAccount);
+    },
+
+    async getDetailAccount({ commit }, { id }) {
+      const dataAccount = await axios
+        .get(
+          `${process.env.VUE_APP_SERViCE_URL}/account/getdetailaccount?id=${id}`
+        )
+        .then((accountResponse) => accountResponse.data);
+
+      commit('setDetailAccount', dataAccount);
+    },
+
+    async searchAccount({ commit }, { textInput, pageAccount, showEntries }) {
+      const dataAccount = await axios
+        .get(
+          `${process.env.VUE_APP_SERViCE_URL}/account/searchaccount?id=${textInput}&name=${textInput}&phone=${textInput}&iban=${textInput}&pin=${textInput}&address=${textInput}&balance=${textInput}&email=${textInput}&date=${textInput}&page=${pageAccount}&showentries=${showEntries}`
         )
         .then((accountResponse) => accountResponse.data);
 
