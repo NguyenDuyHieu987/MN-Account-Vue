@@ -1,6 +1,6 @@
 <template>
   <router-link :to="to" class="nav-link" :class="{ active: isActive }">
-    <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
+    <slot />
     <span>{{ title }}</span>
   </router-link>
 </template>
@@ -39,11 +39,6 @@ export default {
   white-space: nowrap;
   text-decoration: none;
   display: block;
-
-  svg {
-    margin-right: 7px;
-    font-size: 16px;
-  }
 
   &:hover {
     cursor: pointer;

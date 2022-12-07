@@ -9,10 +9,14 @@
       <div class="content-sidebar">
         <ul id="menu">
           <li :class="{ active: isActive }">
-            <SideBarLink to="/" title="Manage Account" />
+            <SideBarLink to="/" title="Manage Account">
+              <font-awesome-icon icon="fa-solid fa-file-invoice" />
+            </SideBarLink>
           </li>
           <li>
-            <SideBarLink to="/auth" title="Log out" />
+            <SideBarLink to="/auth" title="Log out">
+              <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
+            </SideBarLink>
           </li>
         </ul>
       </div>
@@ -76,6 +80,11 @@ export default {
 
   #menu li {
     list-style: none;
+
+    svg {
+      margin-right: 7px;
+      font-size: 16px;
+    }
   }
 }
 
