@@ -4,6 +4,11 @@ import axios from 'axios';
 const store = createStore({
   state() {
     return {
+      userAccount: {
+        fullname: '',
+        role: '',
+      },
+      logedIn: false,
       listAccount: [],
       numberOfAccount: 0,
       activeSideBar: true,

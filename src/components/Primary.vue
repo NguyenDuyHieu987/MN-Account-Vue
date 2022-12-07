@@ -7,7 +7,7 @@
         class="fa-bars"
       />
       <div class="user-container">
-        <p>Hiếu</p>
+        <p>{{ $store.state.userAccount.fullname }}</p>
       </div>
     </div>
     <slot />

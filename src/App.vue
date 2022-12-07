@@ -15,5 +15,12 @@ export default {
       layout: computed(() => (router.meta.layout || 'default') + '-layout'),
     };
   },
+  created() {
+    if (this.$store.state.logedIn == false) {
+      this.$router.push('/auth');
+    } else {
+      this.$router.push('/');
+    }
+  },
 };
 </script>

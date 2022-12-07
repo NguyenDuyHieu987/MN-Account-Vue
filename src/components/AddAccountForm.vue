@@ -2,6 +2,7 @@
   <div class="input-container">
     <p class="title-input">Id</p>
     <input type="text" v-model="$store.state.requestAddAccount.id" />
+    <p class="error">{{ formAddError?.idError }}</p>
   </div>
   <div class="input-container">
     <p class="title-input">Name</p>
@@ -18,6 +19,7 @@
   <div class="input-container">
     <p class="title-input">Pin</p>
     <input type="text" v-model="$store.state.requestAddAccount.pin" />
+    <p class="error">{{ formAddError?.pinError }}</p>
   </div>
   <div class="input-container">
     <p class="title-input">Address</p>
@@ -26,6 +28,7 @@
   <div class="input-container">
     <p class="title-input">Balance</p>
     <input type="text" v-model="$store.state.requestAddAccount.balance" />
+    <p class="error">{{ formAddError?.balanceError }}</p>
   </div>
   <div class="input-container">
     <p class="title-input">Email</p>
@@ -40,7 +43,11 @@
 <script>
 export default {
   name: 'AddAccountForm',
-  props: {},
+  props: {
+    formAddError: {
+      type: Object,
+    },
+  },
   data() {
     return {};
   },
@@ -66,5 +73,8 @@ export default {
       outline: 1px solid var(--header-content-color);
     }
   }
+}
+.error {
+  color: var(--failed-color);
 }
 </style>

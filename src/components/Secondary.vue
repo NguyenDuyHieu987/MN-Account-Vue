@@ -2,7 +2,9 @@
   <div class="wrapper-sidebar" :class="{ active: activeSideBar }">
     <div class="sidebar-container">
       <div class="header-sidebar">
-        <p class="title-header-sidebar">Admin</p>
+        <p class="title-header-sidebar">
+          {{ capitalizeFirstLetter($store.state.userAccount.role) }}
+        </p>
       </div>
       <div class="content-sidebar">
         <ul id="menu">
@@ -33,9 +35,13 @@ export default {
     const store = useStore();
     const route = useRoute();
     const isActive = computed(() => route.path === route.to);
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     return {
       activeSideBar1: store.getters.activeSideBar,
       isActive,
+      capitalizeFirstLetter,
     };
   },
   computed: { ...mapGetters(['activeSideBar']) },
@@ -70,10 +76,6 @@ export default {
 
   #menu li {
     list-style: none;
-  }
-
-  #menu li.active {
-    background-color: var(--sidebar-color-hover);
   }
 }
 

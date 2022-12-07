@@ -77,13 +77,28 @@
               class="item"
             >
               <td class="action">
-                <button class="btn-edit" @click="btnEditOnClick">
+                <button
+                  class="btn-edit"
+                  @click="btnEditOnClick"
+                  v-if="$store.state.userAccount.role == 'admin'"
+                >
                   <font-awesome-icon icon="fa-solid fa-pencil" />
                 </button>
-                <button class="btn-remove" @click="btnRemoveOnClick">
+                <button
+                  class="btn-remove"
+                  @click="btnRemoveOnClick"
+                  v-if="$store.state.userAccount.role == 'admin'"
+                >
                   <font-awesome-icon icon="fa-regular fa-trash-can" />
                 </button>
-                <button class="btn-detail" @click="btnDetailOnClick">
+                <button
+                  class="btn-detail"
+                  @click="btnDetailOnClick"
+                  v-if="
+                    $store.state.userAccount.role == 'admin' ||
+                    $store.state.userAccount.role == 'normal'
+                  "
+                >
                   <font-awesome-icon icon="fa-solid fa-eye" />
                 </button>
               </td>
@@ -131,10 +146,35 @@
           <button @click="btnPreviousOnclick" :disabled="pageAccount == 0">
             Previous
           </button>
-          <ul>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
+          <ul class="number-pagination-container">
+            <li
+              v-for="(item, index) in pagination"
+              :key="index"
+              :class="{
+                active: index == pageAccount % 3,
+              }"
+            >
+              <span
+                v-if="
+                  pageAccount % 3 == 0 &&
+                  pageAccount != 0 &&
+                  pageAccount + 1 > 3
+                "
+              >
+                {{ pageAccount + item }}
+              </span>
+              <span v-if="pageAccount % 3 == 1 && pageAccount + 1 > 3">
+                {{ pageAccount + index }}
+              </span>
+              <span v-if="pageAccount % 3 == 2 && pageAccount + 1 > 3">
+                {{ pageAccount + index - 1 }}
+              </span>
+              <span v-if="pageAccount + 1 <= 3">
+                {{ item }}
+              </span>
+            </li>
+            <!-- <li>{{ pageAccount + 2 }}</li>
+            <li>{{ pageAccount + 3 }}</li> -->
           </ul>
           <button
             @click="btnNextOnclick"
@@ -171,8 +211,11 @@
           <p v-if="isShowModalRemove">Remove Account</p>
           <p v-if="isShowModalDetail">Detail Account</p>
         </template>
-        <AddAccountForm v-if="isShowModalAdd" />
-        <EditAccountForm v-if="isShowModalEdit" />
+        <AddAccountForm v-if="isShowModalAdd" :formAddError="formAddError" />
+        <EditAccountForm
+          v-if="isShowModalEdit"
+          :formEditError="formEditError"
+        />
         <RemoveAccountForm v-if="isShowModalRemove" />
         <DetailAccountForm v-if="isShowModalDetail" />
         <template v-slot:footer>
@@ -190,7 +233,7 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { HalfCircleSpinner } from 'epic-spinners';
 import Modal from './Modal.vue';
@@ -232,21 +275,35 @@ export default {
     let isShowModalAdd = ref(false);
     let isShowModalDetail = ref(false);
     let showEntries = ref(10);
+    let pagination = ref([1, 2, 3]);
+
+    let formAddError = reactive({
+      idError: '',
+      pinError: '',
+      balanceError: '',
+    });
+
+    let formEditError = reactive({
+      pinError: '',
+      balanceError: '',
+    });
 
     const btnPreviousOnclick = () => {
-      pageAccount.value = --pageAccount.value;
+      pageAccount.value--;
       store.dispatch('getListAccount', {
         pageAccount: pageAccount,
         showEntries: showEntries,
       });
     };
+
     const btnNextOnclick = () => {
-      pageAccount.value = ++pageAccount.value;
+      pageAccount.value++;
       store.dispatch('getListAccount', {
         pageAccount: pageAccount.value,
         showEntries: showEntries.value,
       });
     };
+
     const btnEditOnClick = (e) => {
       isShowModalEdit.value = true;
       const item = e.target.closest('.item');
@@ -270,16 +327,19 @@ export default {
       store.state.requestEditAccount.email = email.innerHTML;
       store.state.requestEditAccount.date = date.innerHTML;
     };
+
     const btnRemoveOnClick = (e) => {
       isShowModalRemove.value = true;
       const item = e.target.closest('.item');
       const id = item.querySelector('.id');
       store.state.requestRemoveAccount.id = id.innerHTML;
     };
+
     const btnAddOnClick = (e) => {
       isShowModalAdd.value = true;
       e.target.closest('');
     };
+
     const onChangeNumberEntries = () => {
       store.dispatch('getListAccount', {
         pageAccount: pageAccount.value,
@@ -287,6 +347,7 @@ export default {
       });
       store.dispatch('getNumberOfAccount');
     };
+
     const btnDetailOnClick = (e) => {
       isShowModalDetail.value = true;
       const item = e.target.closest('.item');
@@ -294,69 +355,111 @@ export default {
       console.log(id.innerHTML);
       store.dispatch('getDetailAccount', { id });
     };
+
     const onClose = () => {
       isShowModalEdit.value = false;
       isShowModalRemove.value = false;
       isShowModalAdd.value = false;
       isShowModalDetail.value = false;
     };
+
     const onSaveChange = () => {
       if (isShowModalAdd.value) {
-        axios
-          .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/addaccount`,
-            store.state.requestAddAccount
-          )
-          .then((response) => {
-            if (response.data.success) {
-              store.dispatch('getListAccount', {
-                pageAccount: pageAccount.value,
-                showEntries: showEntries.value,
-              });
-              store.dispatch('getNumberOfAccount');
-              onClose();
-              store.state.showAddMessage = true;
-              store.state.showUpdateMessage = false;
-              store.state.showRemoveMessage = false;
-              store.state.failedMessage = false;
-            } else {
-              store.state.showAddMessage = true;
-              store.state.failedMessage = true;
-              onClose();
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (store.state.requestAddAccount.id.length > 8) {
+          formAddError.idError = 'Id is limited to 8 numbers';
+        } else {
+          formAddError.idError = '';
+        }
+        if (store.state.requestAddAccount.pin.length > 4) {
+          formAddError.pinError = 'Pin is limited to 4 numbers';
+        } else {
+          formAddError.pinError = '';
+        }
+        if (store.state.requestAddAccount.balance.length > 9) {
+          formAddError.balanceError = 'Balance is limited to 9 numbers';
+        } else {
+          formAddError.balanceError = '';
+        }
+
+        if (
+          formAddError.idError.length == 0 &&
+          formAddError.pinError.length == 0 &&
+          formAddError.balanceError.length == 0
+        ) {
+          axios
+            .post(
+              `${process.env.VUE_APP_SERViCE_URL}/account/addaccount`,
+              store.state.requestAddAccount
+            )
+            .then((response) => {
+              if (response.data.success) {
+                store.dispatch('getListAccount', {
+                  pageAccount: pageAccount.value,
+                  showEntries: showEntries.value,
+                });
+                store.dispatch('getNumberOfAccount');
+                onClose();
+                store.state.showAddMessage = true;
+                store.state.showUpdateMessage = false;
+                store.state.showRemoveMessage = false;
+                store.state.failedMessage = false;
+              } else {
+                store.state.showAddMessage = true;
+                store.state.failedMessage = true;
+                onClose();
+              }
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+        }
       }
+
       if (isShowModalEdit.value) {
-        axios
-          .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
-            store.state.requestEditAccount
-          )
-          .then((response) => {
-            if (response.data.success) {
-              store.dispatch('getListAccount', {
-                pageAccount: pageAccount.value,
-                showEntries: showEntries.value,
-              });
-              store.dispatch('getNumberOfAccount');
-              onClose();
-              store.state.showUpdateMessage = true;
-              store.state.showAddMessage = false;
-              store.state.showRemoveMessage = false;
-              store.state.failedMessage = false;
-            } else {
-              store.state.showUpdateMessage = true;
-              store.state.failedMessage = true;
-              onClose();
-            }
-          })
-          .catch((e) => {
-            if (axios.isCancel(e)) return;
-          });
+        if (store.state.requestEditAccount.pin.length > 4) {
+          formEditError.pinError = 'Pin is limited to 4 numbers';
+        } else {
+          formEditError.pinError = '';
+        }
+        if (store.state.requestEditAccount.balance.length > 9) {
+          formEditError.balanceError = 'Balance is limited to 9 numbers';
+        } else {
+          formEditError.balanceError = '';
+        }
+
+        if (
+          formEditError.pinError.length == 0 &&
+          formEditError.balanceError.length == 0
+        ) {
+          axios
+            .post(
+              `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
+              store.state.requestEditAccount
+            )
+            .then((response) => {
+              if (response.data.success) {
+                store.dispatch('getListAccount', {
+                  pageAccount: pageAccount.value,
+                  showEntries: showEntries.value,
+                });
+                store.dispatch('getNumberOfAccount');
+                onClose();
+                store.state.showUpdateMessage = true;
+                store.state.showAddMessage = false;
+                store.state.showRemoveMessage = false;
+                store.state.failedMessage = false;
+              } else {
+                store.state.showUpdateMessage = true;
+                store.state.failedMessage = true;
+                onClose();
+              }
+            })
+            .catch((e) => {
+              if (axios.isCancel(e)) return;
+            });
+        }
       }
+
       if (isShowModalRemove.value) {
         axios
           .post(
@@ -402,7 +505,24 @@ export default {
       }
     });
 
+    onMounted(() => {
+      const pagination = document.querySelectorAll(
+        '.number-pagination-container li'
+      );
+
+      pagination.forEach((element) => {
+        element.addEventListener('click', () => {
+          pagination.forEach((element1) => {
+            element1.classList.remove('active');
+          });
+          element.classList.add('active');
+          pageAccount.value = element.querySelector('span').innerHTML - 1;
+        });
+      });
+    });
+
     return {
+      pagination,
       textInputSearch,
       pageAccount,
       isShowModalEdit,
@@ -410,6 +530,8 @@ export default {
       isShowModalAdd,
       isShowModalDetail,
       showEntries,
+      formAddError,
+      formEditError,
       btnNextOnclick,
       btnPreviousOnclick,
       btnRemoveOnClick,
@@ -590,7 +712,6 @@ export default {
       return this.$store.state.numberOfAccount;
     },
   },
-  watchEffect: {},
 };
 </script>
 
@@ -810,6 +931,13 @@ td.action {
     &:hover {
       background-color: var(--header-sidebar-color);
     }
+  }
+}
+
+.number-pagination-container {
+  li.active {
+    background-color: var(--header-content-color);
+    color: var(--regular-color);
   }
 }
 </style>

@@ -14,6 +14,7 @@
   <div class="input-container">
     <p class="title-input">Pin</p>
     <input type="text" v-model="$store.state.requestEditAccount.pin" />
+    <p class="error">{{ formEditError?.pinError }}</p>
   </div>
   <div class="input-container">
     <p class="title-input">Address</p>
@@ -22,6 +23,7 @@
   <div class="input-container">
     <p class="title-input">Balance</p>
     <input type="text" v-model="$store.state.requestEditAccount.balance" />
+    <p class="error">{{ formEditError?.balanceError }}</p>
   </div>
   <div class="input-container">
     <p class="title-input">Email</p>
@@ -36,7 +38,11 @@
 <script>
 export default {
   name: 'EditAccountForm',
-  props: {},
+  props: {
+    formEditError: {
+      type: Object,
+    },
+  },
   data() {
     return {};
   },
@@ -62,5 +68,9 @@ export default {
       outline: 1px solid var(--header-content-color);
     }
   }
+}
+
+.error {
+  color: var(--failed-color);
 }
 </style>

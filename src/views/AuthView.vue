@@ -45,6 +45,8 @@ export default {
           if (response.data == '') {
             console.log('failed sign in');
           } else {
+            console.log(response.data);
+            this.$store.state.userAccount = response.data;
             this.$router.push({ path: '/' });
           }
         })
@@ -98,7 +100,7 @@ export default {
       margin-top: 5px;
       width: 100%;
       background-color: transparent;
-      padding: 7px 0px 10px 5px;
+      padding: 7px 0px 10px 8px;
       border: 1px solid #5a5a5a;
       border-radius: 3px;
       color: var(--regular-color);
