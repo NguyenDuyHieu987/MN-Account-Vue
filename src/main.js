@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import loader from 'vue-ui-preloader';
 
 /* import specific icons */
 import {
@@ -42,5 +43,6 @@ registerGlobalComponent(app);
 app
   .use(router)
   .use(store)
+  .use(loader)
   .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app');

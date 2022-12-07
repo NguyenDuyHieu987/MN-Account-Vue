@@ -20,9 +20,21 @@
         </button>
       </form>
     </div>
+
+    <loader
+      object="#ff9633"
+      color1="#ffffff"
+      color2="#0086ac"
+      size="5"
+      speed="2"
+      bg="#191919"
+      objectbg="#999793"
+      opacity="80"
+      name="circular"
+      v-if="showLoading"
+    ></loader>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -32,10 +44,12 @@ export default {
     return {
       username: '',
       password: '',
+      showLoading: false,
     };
   },
   methods: {
     onSignIn() {
+      this.showLoading = true;
       axios
         .post(`${process.env.VUE_APP_SERViCE_URL}/auth/login`, {
           username: this.username,
@@ -45,9 +59,9 @@ export default {
           if (response.data == '') {
             console.log('failed sign in');
           } else {
-            console.log(response.data);
             this.$store.state.userAccount = response.data;
             this.$router.push({ path: '/' });
+            this.showLoading = false;
           }
         })
         .catch((e) => {
