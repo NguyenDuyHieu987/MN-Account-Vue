@@ -72,7 +72,7 @@ export default {
   background-color: var(--sidebar-color-hover);
   width: 500px;
   height: 400px;
-  box-shadow: 0px 0px 24px 3px #5a5a5a;
+  box-shadow: 0px 0px 30px 4px #2d2d2d;
   display: flex;
   flex-direction: column;
   align-items: center;
