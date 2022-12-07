@@ -7,19 +7,10 @@
       <div class="content-sidebar">
         <ul id="menu">
           <li :class="{ active: isActive }">
-            <router-link to="/">
-              <font-awesome-icon
-                icon="fa-solid fa-file-invoice"
-                class="fa-file-invoice"
-              />
-              <span> Manage Account</span>
-            </router-link>
+            <SideBarLink to="/" title="Manage Account" />
           </li>
           <li>
-            <router-link to="/auth">
-              <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
-              <span>Log out</span>
-            </router-link>
+            <SideBarLink to="/auth" title="Log out" />
           </li>
         </ul>
       </div>
@@ -31,9 +22,13 @@
 import { useStore, mapGetters } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import SideBarLink from './SideBarLink.vue';
 
 export default {
   name: 'Secondary',
+  components: {
+    SideBarLink,
+  },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -79,26 +74,6 @@ export default {
 
   #menu li.active {
     background-color: var(--sidebar-color-hover);
-  }
-
-  #menu li a {
-    padding: 12px 10px 12px 15px;
-    cursor: pointer;
-    color: var(--text-color-sidebar);
-    white-space: nowrap;
-    text-decoration: none;
-    display: block;
-
-    svg {
-      margin-right: 7px;
-      font-size: 16px;
-    }
-
-    &:hover {
-      cursor: pointer;
-      background-color: var(--sidebar-color-hover);
-      transition: 0.25s ease-in-out;
-    }
   }
 }
 
