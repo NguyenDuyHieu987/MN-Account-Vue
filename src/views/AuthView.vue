@@ -21,25 +21,25 @@
       </form>
     </div>
 
-    <loader
-      object="#ff9633"
-      color1="#ffffff"
-      color2="#0086ac"
-      size="5"
-      speed="2"
-      bg="#191919"
-      objectbg="#999793"
-      opacity="80"
-      name="circular"
-      v-if="showLoading"
-    ></loader>
+    <div v-if="showLoading" class="loading-signin">
+      <fulfilling-bouncing-circle-spinner
+        :animation-duration="2000"
+        :size="60"
+        color="var(--header-table-color)"
+      />
+    </div>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
+import { FulfillingBouncingCircleSpinner } from 'epic-spinners';
 
 export default {
   name: 'AuthView',
+  components: {
+    FulfillingBouncingCircleSpinner,
+  },
   data() {
     return {
       username: '',
@@ -140,5 +140,15 @@ export default {
       background-color: var(--header-sidebar-color);
     }
   }
+}
+
+.loading-signin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #0f0f0fc1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
