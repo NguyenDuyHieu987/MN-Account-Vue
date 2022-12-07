@@ -304,7 +304,7 @@ export default {
       if (isShowModalAdd.value) {
         axios
           .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/addAccount`,
+            `${process.env.VUE_APP_SERViCE_URL}/account/addaccount`,
             store.state.requestAddAccount
           )
           .then((response) => {
