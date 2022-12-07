@@ -6,16 +6,20 @@
       </div>
       <div class="content-sidebar">
         <ul id="menu">
-          <li>
-            <font-awesome-icon
-              icon="fa-solid fa-file-invoice"
-              class="fa-file-invoice"
-            />
-            <span> Manage Account</span>
+          <li :class="{ active: isActive }">
+            <router-link to="/">
+              <font-awesome-icon
+                icon="fa-solid fa-file-invoice"
+                class="fa-file-invoice"
+              />
+              <span> Manage Account</span>
+            </router-link>
           </li>
-          <li @click="onLogout">
-            <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
-            <span>Log out</span>
+          <li>
+            <router-link to="/auth">
+              <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
+              <span>Log out</span>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -25,18 +29,18 @@
 
 <script>
 import { useStore, mapGetters } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+
 export default {
   name: 'Secondary',
   setup() {
     const store = useStore();
-    const router = useRouter();
-    const onLogout = () => {
-      router.push({ path: '/auth' });
-    };
+    const route = useRoute();
+    const isActive = computed(() => route.path === route.to);
     return {
       activeSideBar1: store.getters.activeSideBar,
-      onLogout,
+      isActive,
     };
   },
   computed: { ...mapGetters(['activeSideBar']) },
@@ -71,10 +75,19 @@ export default {
 
   #menu li {
     list-style: none;
+  }
+
+  #menu li.active {
+    background-color: var(--sidebar-color-hover);
+  }
+
+  #menu li a {
     padding: 12px 10px 12px 15px;
     cursor: pointer;
     color: var(--text-color-sidebar);
     white-space: nowrap;
+    text-decoration: none;
+    display: block;
 
     svg {
       margin-right: 7px;
