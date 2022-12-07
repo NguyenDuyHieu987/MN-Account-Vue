@@ -57,7 +57,7 @@ export default {
         })
         .then((response) => {
           if (response.data == '') {
-            console.log('failed sign in');
+            console.log('Failed Sign in');
           } else {
             this.$store.state.userAccount = response.data;
             this.$router.push({ path: '/' });
