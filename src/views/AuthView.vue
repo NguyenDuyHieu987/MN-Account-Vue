@@ -117,7 +117,7 @@ export default {
     width: 100%;
     cursor: pointer;
     transition: 0.25s ease-in-out;
-    margin-top: 20px;
+    margin-top: 40px;
     border-radius: 5px;
 
     &:hover {
