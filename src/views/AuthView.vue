@@ -23,7 +23,7 @@
 
     <div v-if="showLoading" class="loading-signin">
       <fulfilling-bouncing-circle-spinner
-        :animation-duration="2000"
+        :animation-duration="3000"
         :size="60"
         color="var(--header-table-color)"
       />
