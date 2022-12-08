@@ -388,7 +388,7 @@ export default {
         ) {
           axios
             .post(
-              `${process.env.VUE_APP_SERViCE_URL}/account/addaccount`,
+              `${process.env.VUE_APP_SERVICE_URL}/account/addaccount`,
               store.state.requestAddAccount
             )
             .then((response) => {
@@ -433,7 +433,7 @@ export default {
         ) {
           axios
             .post(
-              `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
+              `${process.env.VUE_APP_SERVICE_URL}/account/updateaccount`,
               store.state.requestEditAccount
             )
             .then((response) => {
@@ -463,7 +463,7 @@ export default {
       if (isShowModalRemove.value) {
         axios
           .post(
-            `${process.env.VUE_APP_SERViCE_URL}/account/removeaccount`,
+            `${process.env.VUE_APP_SERVICE_URL}/account/removeaccount`,
             store.state.requestRemoveAccount
           )
           .then((response) => {
@@ -614,7 +614,7 @@ export default {
     //   if (this.isShowModalAdd) {
     //     axios
     //       .post(
-    //         `${process.env.VUE_APP_SERViCE_URL}/account/addAccount`,
+    //         `${process.env.VUE_APP_SERVICE_URL}/account/addAccount`,
     //         this.$store.state.requestAddAccount
     //       )
     //       .then((response) => {
@@ -642,7 +642,7 @@ export default {
     //   if (this.isShowModalEdit) {
     //     axios
     //       .post(
-    //         `${process.env.VUE_APP_SERViCE_URL}/account/updateaccount`,
+    //         `${process.env.VUE_APP_SERVICE_URL}/account/updateaccount`,
     //         this.$store.state.requestEditAccount
     //       )
     //       .then((response) => {
@@ -670,7 +670,7 @@ export default {
     //   if (this.isShowModalRemove) {
     //     axios
     //       .post(
-    //         `${process.env.VUE_APP_SERViCE_URL}/account/removeaccount`,
+    //         `${process.env.VUE_APP_SERVICE_URL}/account/removeaccount`,
     //         this.$store.state.requestRemoveAccount
     //       )
     //       .then((response) => {

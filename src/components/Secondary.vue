@@ -14,7 +14,7 @@
             </SideBarLink>
           </li>
           <li>
-            <SideBarLink to="/auth" title="Log out">
+            <SideBarLink to="/auth" title="Log out" @click="onLogout">
               <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
             </SideBarLink>
           </li>
@@ -42,10 +42,16 @@ export default {
     function capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    const onLogout = () => {
+      window.localStorage.removeItem('userToken');
+    };
+
     return {
       activeSideBar1: store.getters.activeSideBar,
       isActive,
       capitalizeFirstLetter,
+      onLogout,
     };
   },
   computed: { ...mapGetters(['activeSideBar']) },

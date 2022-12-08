@@ -8,7 +8,6 @@ const store = createStore({
         fullname: '',
         role: '',
       },
-      logedIn: false,
       listAccount: [],
       numberOfAccount: 0,
       activeSideBar: true,
@@ -76,7 +75,7 @@ const store = createStore({
     async getListAccount({ commit }, { pageAccount, showEntries }) {
       const dataAccount = await axios
         .get(
-          `${process.env.VUE_APP_SERViCE_URL}/account/getallaccount?page=${pageAccount}&showentries=${showEntries}`
+          `${process.env.VUE_APP_SERVICE_URL}/account/getallaccount?page=${pageAccount}&showentries=${showEntries}`
         )
         .then((accountResponse) => accountResponse.data);
 
@@ -86,7 +85,7 @@ const store = createStore({
     async getDetailAccount({ commit }, { id }) {
       const dataAccount = await axios
         .get(
-          `${process.env.VUE_APP_SERViCE_URL}/account/getdetailaccount?id=${id}`
+          `${process.env.VUE_APP_SERVICE_URL}/account/getdetailaccount?id=${id}`
         )
         .then((accountResponse) => accountResponse.data);
 
@@ -96,7 +95,7 @@ const store = createStore({
     async searchAccount({ commit }, { textInput, pageAccount, showEntries }) {
       const dataAccount = await axios
         .get(
-          `${process.env.VUE_APP_SERViCE_URL}/account/searchaccount?id=${textInput}&name=${textInput}&phone=${textInput}&iban=${textInput}&pin=${textInput}&address=${textInput}&balance=${textInput}&email=${textInput}&date=${textInput}&page=${pageAccount}&showentries=${showEntries}`
+          `${process.env.VUE_APP_SERVICE_URL}/account/searchaccount?id=${textInput}&name=${textInput}&phone=${textInput}&iban=${textInput}&pin=${textInput}&address=${textInput}&balance=${textInput}&email=${textInput}&date=${textInput}&page=${pageAccount}&showentries=${showEntries}`
         )
         .then((accountResponse) => accountResponse.data);
 
@@ -105,7 +104,7 @@ const store = createStore({
 
     async getNumberOfAccount({ commit }) {
       const numberOfAccount = await axios
-        .get(`${process.env.VUE_APP_SERViCE_URL}/account/getnumberofaccount`)
+        .get(`${process.env.VUE_APP_SERVICE_URL}/account/getnumberofaccount`)
         .then((accountResponse) => accountResponse.data.result);
 
       commit('setNumberOfAccount', numberOfAccount);

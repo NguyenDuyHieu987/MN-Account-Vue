@@ -7,6 +7,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import axios from 'axios';
 
 export default {
   setup() {
@@ -16,10 +17,24 @@ export default {
     };
   },
   created() {
-    if (this.$store.state.logedIn == false) {
+    if (window.localStorage.getItem('userToken') == null) {
       this.$router.push('/auth');
     } else {
-      this.$router.push('/');
+      axios
+        .post(`${process.env.VUE_APP_SERVICE_URL}/auth/keeplogin`, {
+          usertoken: window.localStorage.getItem('userToken'),
+        })
+        .then((response) => {
+          if (response.data == '') {
+            console.log('Failed Sign in');
+          } else {
+            this.$store.state.userAccount = response.data;
+            this.$router.push({ path: '/' });
+          }
+        })
+        .catch((e) => {
+          if (axios.isCancel(e)) return;
+        });
     }
   },
 };

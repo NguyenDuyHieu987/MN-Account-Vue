@@ -51,7 +51,7 @@ export default {
     onSignIn() {
       this.showLoading = true;
       axios
-        .post(`${process.env.VUE_APP_SERViCE_URL}/auth/login`, {
+        .post(`${process.env.VUE_APP_SERVICE_URL}/auth/login`, {
           username: this.username,
           password: this.password,
         })
@@ -60,8 +60,9 @@ export default {
             console.log('Failed Sign in');
           } else {
             this.$store.state.userAccount = response.data;
-            this.$router.push({ path: '/' });
+            window.localStorage.setItem('userToken', response.data.usertoken);
             this.showLoading = false;
+            this.$router.push({ path: '/' });
           }
         })
         .catch((e) => {
