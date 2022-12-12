@@ -160,6 +160,9 @@
                 active: index == pageAccount % 3,
               }"
             >
+              <span v-if="pageAccount + 1 <= 3">
+                {{ item }}
+              </span>
               <span
                 v-if="
                   pageAccount % 3 == 0 &&
@@ -167,16 +170,13 @@
                   pageAccount + 1 > 3
                 "
               >
-                {{ pageAccount + item }}
+                {{ pageAccount + index + 1 }}
               </span>
               <span v-if="pageAccount % 3 == 1 && pageAccount + 1 > 3">
                 {{ pageAccount + index }}
               </span>
               <span v-if="pageAccount % 3 == 2 && pageAccount + 1 > 3">
                 {{ pageAccount + index - 1 }}
-              </span>
-              <span v-if="pageAccount + 1 <= 3">
-                {{ item }}
               </span>
             </li>
             <!-- <li>{{ pageAccount + 2 }}</li>
