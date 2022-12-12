@@ -27,7 +27,13 @@
         "
       />
     </div>
-    <button class="btn-add-account" @click="btnAddOnClick">Add Account</button>
+    <button
+      v-if="$store.state.userAccount.role == 'admin'"
+      class="btn-add-account"
+      @click="btnAddOnClick"
+    >
+      Add Account
+    </button>
     <div class="manage-account-content">
       <div class="header-table">
         <div class="show-entries">
