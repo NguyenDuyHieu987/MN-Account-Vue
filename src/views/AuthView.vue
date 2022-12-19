@@ -16,7 +16,7 @@
           <input type="password" placeholder="Password" v-model="password" />
         </div>
         <button type="submit" class="btn-signin" @click.prevent="onSignIn">
-          Sig in
+          Log in
         </button>
       </form>
     </div>
