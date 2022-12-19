@@ -5,6 +5,12 @@
         @click="faBarsOnclick"
         icon="fa-solid fa-bars"
         class="fa-bars"
+        v-if="!activeSideBar"
+      />
+      <font-awesome-icon
+        v-else
+        icon="fa-solid fa-chevron-left"
+        @click="faBarsOnclick"
       />
       <div class="user-container">
         <p>{{ $store.state.userAccount.fullname }}</p>
@@ -45,18 +51,18 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    svg {
+      cursor: pointer;
+      margin-left: 15px;
+      padding: 5px;
+      font-size: 20px;
+    }
   }
 }
 .wrapper-content.full {
   width: 100%;
   transition: 0.3s ease;
-}
-
-.fa-bars {
-  cursor: pointer;
-  margin-left: 15px;
-  padding: 5px;
-  font-size: 20px;
 }
 
 .user-container {

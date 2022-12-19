@@ -20,6 +20,7 @@ import {
   faCircleCheck,
   faCircleExclamation,
   faEye,
+  faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 
@@ -34,7 +35,8 @@ library.add(
   faCircleCheck,
   faCircleXmark,
   faCircleExclamation,
-  faEye
+  faEye,
+  faChevronLeft
 );
 
 const app = createApp(App);
