@@ -102,7 +102,7 @@ const store = createStore({
       state.loadingTable = true;
       const dataAccount = await axios
         .get(
-          `${process.env.VUE_APP_SERVICE_URL}/account/searchaccount?id=${textInput}&name=${textInput}&phone=${textInput}&iban=${textInput}&pin=${textInput}&address=${textInput}&balance=${textInput}&email=${textInput}&date=${textInput}&page=${pageAccount}&showentries=${showEntries}`
+          `${process.env.VUE_APP_SERVICE_URL}/account/searchaccount?query=${textInput}&page=${pageAccount}&showentries=${showEntries}`
         )
         .then((accountResponse) => accountResponse.data);
 
