@@ -7,6 +7,7 @@ const store = createStore({
       userAccount: {
         fullname: '',
         role: '',
+        loadingTable: false,
       },
       listAccount: [],
       numberOfAccount: 0,
@@ -72,7 +73,8 @@ const store = createStore({
       commit('setActiveSideBar');
     },
 
-    async getListAccount({ commit }, { pageAccount, showEntries }) {
+    async getListAccount({ commit, state }, { pageAccount, showEntries }) {
+      state.loadingTable = true;
       const dataAccount = await axios
         .get(
           `${process.env.VUE_APP_SERVICE_URL}/account/getallaccount?page=${pageAccount}&showentries=${showEntries}`
@@ -80,6 +82,7 @@ const store = createStore({
         .then((accountResponse) => accountResponse.data);
 
       commit('setListAccount', dataAccount);
+      state.loadingTable = false;
     },
 
     async getDetailAccount({ commit }, { id }) {
@@ -92,7 +95,11 @@ const store = createStore({
       commit('setDetailAccount', dataAccount);
     },
 
-    async searchAccount({ commit }, { textInput, pageAccount, showEntries }) {
+    async searchAccount(
+      { commit, state },
+      { textInput, pageAccount, showEntries }
+    ) {
+      state.loadingTable = true;
       const dataAccount = await axios
         .get(
           `${process.env.VUE_APP_SERVICE_URL}/account/searchaccount?id=${textInput}&name=${textInput}&phone=${textInput}&iban=${textInput}&pin=${textInput}&address=${textInput}&balance=${textInput}&email=${textInput}&date=${textInput}&page=${pageAccount}&showentries=${showEntries}`
@@ -100,6 +107,7 @@ const store = createStore({
         .then((accountResponse) => accountResponse.data);
 
       commit('setListAccount', dataAccount);
+      state.loadingTable = false;
     },
 
     async getNumberOfAccount({ commit }) {

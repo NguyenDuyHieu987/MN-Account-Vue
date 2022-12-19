@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="table-container">
-        <div v-if="listAccount.length">
+        <div v-if="!$store.state.loadingTable">
           <table>
             <tr>
               <th>Action</th>
